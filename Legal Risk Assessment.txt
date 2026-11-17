@@ -1,0 +1,23 @@
+全球法务风险评估 (Global Legal Risk Assessment)
+
+1. 未公开接口与爬虫的违约风险 (Low Risk: ToS Violation for Undocumented APIs)
+工具底层调用了 edge-tts（微软 Edge 浏览器的内部语音接口）以及有道、Google 网页版翻译的公开端点。这些通常属于未提供官方开放平台授权的接口。
+风险评估： 在个人、非商业、低并发使用的前提下，法律诉讼风险无限趋近于零。大厂应对此类行为的标准操作是技术封堵（如封禁 IP、修改 Token 算法导致 403 报错，这也是你之前遇到 TTS 失效的原因），而非跨国起诉个人开发者。
+The Risk: The tool utilizes edge-tts (Microsoft Edge's internal TTS endpoint) and web-scraping endpoints for Youdao/Google translation. These are undocumented APIs not officially intended for third-party automated access.
+Assessment: For personal, non-commercial, and low-concurrency use, the risk of legal litigation is negligible. Tech giants typically respond to such usage with technical countermeasures (e.g., IP bans, modifying token algorithms causing HTTP 403 errors, as you previously experienced with TTS), rather than initiating transnational lawsuits against individual developers.
+
+2. 官方大模型 API 服务条款 (Medium Risk: Official API Terms of Service)
+调用 Gemini API 需严格遵守 Google 的 API 服务条款（Terms of Service）。
+风险评估： 只要你不利用该代码批量生成非法内容（如仇恨言论、违法材料）或滥用免费配额进行商业变现，个人自用的法务风险极低。最大的潜在处罚是 Google 暂停或封禁你的 API Key 及关联账号。
+The Risk: Utilizing the Gemini API requires strict compliance with Google's API Terms of Service.
+Assessment: As long as the code is not used to mass-generate illegal content (e.g., hate speech, illicit materials) or abuse the free tier limits for commercial monetization, the legal risk for personal use is extremely low. The most severe potential penalty is Google suspending or terminating your API Key and its associated account.
+
+3. 开源免责保护 (Zero Risk: Open-Source Liability)
+将代码发布至 GitHub 供他人使用，可能会引发他人在使用过程中产生的系统崩溃或账号封禁。
+风险评估： MIT 协议中包含极其强硬的“免责声明”（AS IS 条款）。它在法律上明确了作者不对任何人使用该代码造成的直接或间接损失负责（包括数据丢失、API 扣费等）。只要你附带了 LICENSE 文件，你就享有完全的代码免责权。
+The Risk: Publishing the code on GitHub for others to use could hypothetically lead to third-party system crashes or account bans.
+Assessment: The MIT License contains a highly robust "Disclaimer of Warranty" (the "AS IS" clause). It legally stipulates that the author is not liable for any direct or indirect damages (including data loss, API billing charges, etc.) resulting from the use of the code. As long as you include the LICENSE file, you are fully indemnified against code-related liabilities.
+
+4. 敏感信息泄露 (High Risk: Sensitive Data Leakage)
+风险评估： 这是你面临的唯一实质性风险。如果不慎将包含个人 Gemini API Key 的 user_english_profile.json 推送到 GitHub，恶意爬虫会在几秒钟内抓取它，并可能利用你的额度产生巨额账单（如果绑定了信用卡）。务必在根目录创建 .gitignore 文件并写入 user_english_profile.json。
+The Risk: This is the only substantive risk you face. If you accidentally push the user_english_profile.json containing your personal Gemini API Key to GitHub, malicious scrapers will capture it within seconds. This could lead to massive billing charges if a credit card is linked. You must create a .gitignore file in the root directory and explicitly add user_english_profile.json to it.
